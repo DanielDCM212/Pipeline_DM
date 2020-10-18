@@ -1,0 +1,36 @@
+{
+	"name": "DataETL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Input",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "hombres.csv",
+				"container": "datos"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "nombre",
+				"type": "String"
+			},
+			{
+				"name": "frec",
+				"type": "String"
+			},
+			{
+				"name": "edad_media",
+				"type": "String"
+			}
+		]
+	}
+}
