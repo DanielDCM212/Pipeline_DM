@@ -1,6 +1,12 @@
 {
 	"name": "HttpServer1",
 	"properties": {
+		"parameters": {
+			"pais": {
+				"type": "string",
+				"defaultValue": "mexico"
+			}
+		},
 		"annotations": [],
 		"type": "HttpServer",
 		"typeProperties": {
