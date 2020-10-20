@@ -19,6 +19,7 @@
 					"value": "@dataset().name",
 					"type": "Expression"
 				},
+				"folderPath": "outputAPI1",
 				"container": "data"
 			}
 		}
