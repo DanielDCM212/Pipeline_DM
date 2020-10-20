@@ -7,8 +7,12 @@
 		},
 		"parameters": {
 			"name": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "mexico"
 			}
+		},
+		"folder": {
+			"name": "Ingesta"
 		},
 		"annotations": [],
 		"type": "Json",
