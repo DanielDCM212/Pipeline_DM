@@ -95,7 +95,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"name": {
-											"value": "concat(@item().pais,'.json')",
+											"value": "@concat(item().pais,'.json')",
 											"type": "Expression"
 										}
 									}
