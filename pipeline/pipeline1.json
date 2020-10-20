@@ -48,8 +48,8 @@
 					},
 					"activities": [
 						{
-							"name": "Web1",
-							"type": "WebActivity",
+							"name": "Copy data1",
+							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
 								"timeout": "7.00:00:00",
@@ -60,9 +60,47 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"url": "@concat('https://api.covid19api.com/total/dayone/country/', item().Pais)",
-								"method": "GET"
-							}
+								"source": {
+									"type": "RestSource",
+									"httpRequestTimeout": "00:01:40",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "GET"
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "RestResource1",
+									"type": "DatasetReference",
+									"parameters": {
+										"pais": {
+											"value": "@item().pais",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Json1",
+									"type": "DatasetReference",
+									"parameters": {
+										"name": {
+											"value": "concat(@item().pais,'.json')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
 						}
 					]
 				}
