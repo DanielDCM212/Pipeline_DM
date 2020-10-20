@@ -1,16 +1,10 @@
 {
 	"name": "RestService1",
 	"properties": {
-		"parameters": {
-			"pais": {
-				"type": "string",
-				"defaultValue": "mexico"
-			}
-		},
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://api.covid19api.com/total/dayone/country/@linkedService().pais",
+			"url": "https://api.covid19api.com/total/dayone/country/",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous"
 		}
