@@ -11,6 +11,9 @@
 				"defaultValue": "mexico"
 			}
 		},
+		"folder": {
+			"name": "Ingesta"
+		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
