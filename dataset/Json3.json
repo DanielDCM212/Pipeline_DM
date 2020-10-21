@@ -1,19 +1,16 @@
 {
-	"name": "Json2",
+	"name": "Json3",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
 			"type": "LinkedServiceReference"
-		},
-		"folder": {
-			"name": "Combinar"
 		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "mexico.json",
+				"fileName": "united-states.json",
 				"folderPath": "outputAPI1",
 				"container": "data"
 			}
