@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "Union.csv",
 				"folderPath": "Prueba2",
 				"container": "data"
 			},
