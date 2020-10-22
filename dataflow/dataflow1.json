@@ -13,30 +13,31 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "Json3",
+						"referenceName": "DelimitedText2",
 						"type": "DatasetReference"
 					},
 					"name": "source2"
 				}
 			],
-			"sinks": [
-				{
-					"dataset": {
-						"referenceName": "DelimitedText1",
-						"type": "DatasetReference"
-					},
-					"name": "sink1"
-				}
-			],
+			"sinks": [],
 			"transformations": [
 				{
-					"name": "Union1"
+					"name": "JsonToColumns"
 				},
 				{
-					"name": "Select1"
+					"name": "DeleteNullData"
+				},
+				{
+					"name": "InsertColumnCountry"
+				},
+				{
+					"name": "ReduceData"
+				},
+				{
+					"name": "ChangeFormatDate"
 				}
 			],
-			"script": "source(output(\n\t\tCountry as string,\n\t\tCountryCode as string,\n\t\tProvince as string,\n\t\tCity as string,\n\t\tCityCode as string,\n\t\tLat as string,\n\t\tLon as string,\n\t\tConfirmed as string,\n\t\tDeaths as string,\n\t\tRecovered as string,\n\t\tActive as string,\n\t\tDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> source1\nsource(output(\n\t\tCountry as string,\n\t\tCountryCode as string,\n\t\tProvince as string,\n\t\tCity as string,\n\t\tCityCode as string,\n\t\tLat as string,\n\t\tLon as string,\n\t\tConfirmed as string,\n\t\tDeaths as string,\n\t\tRecovered as string,\n\t\tActive as string,\n\t\tDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> source2\nsource1, source2 union(byName: true,\n\tpartitionBy('hash', 1))~> Union1\nUnion1 select(mapColumn(\n\t\tActive,\n\t\tConfirmed,\n\t\tCountry,\n\t\tDate,\n\t\tDeaths,\n\t\tRecovered\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\ttruncate: true,\n\tmapColumn(\n\t\tActive,\n\t\tConfirmed,\n\t\tCountry,\n\t\tDate,\n\t\tDeaths,\n\t\tRecovered\n\t),\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+			"script": "source(output(\n\t\tCountry as string,\n\t\tCountryCode as string,\n\t\tProvince as string,\n\t\tCity as string,\n\t\tCityCode as string,\n\t\tLat as string,\n\t\tLon as string,\n\t\tConfirmed as string,\n\t\tDeaths as string,\n\t\tRecovered as string,\n\t\tActive as string,\n\t\tDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> source1\nsource(output(\n\t\tDate as date 'yyyy-MM-dd',\n\t\tDeaths as integer '000',\n\t\tRecoveries as integer '000',\n\t\t{Total confirmed} as integer '000'\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('hash', 1)) ~> source2\nsource1 derive(Fecha = split(Date,'T')[1],\n\tpartitionBy('hash', 1)) ~> JsonToColumns\nJsonToColumns select(mapColumn(\n\t\tCountry,\n\t\tConfirmed,\n\t\tDeaths,\n\t\tRecovered,\n\t\tActive,\n\t\tDate = Fecha\n\t),\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> DeleteNullData\nsource2 derive(Country = toString('mexico'),\n\tpartitionBy('hash', 1)) ~> InsertColumnCountry\nDeleteNullData select(mapColumn(\n\t\tCountry,\n\t\tConfirmed,\n\t\tDeaths,\n\t\tRecovered,\n\t\tDate\n\t),\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReduceData\nReduceData derive(Date = toDate(Date, 'yyyy-MM-dd')) ~> ChangeFormatDate"
 		}
 	}
 }
